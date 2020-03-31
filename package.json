@@ -1,0 +1,25 @@
+{
+  "name": "devconnect",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Robert A <daspanisharmada@gmail.com>",
+  "license": "MIT",
+  "description": "Build and deploy a social network with Node.js, Express, React, Redux & MongoDB",
+  "scripts": {
+    "start": "node server"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.1",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.0",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.7",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.2"
+  }
+}
