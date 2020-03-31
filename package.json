@@ -6,7 +6,8 @@
   "license": "MIT",
   "description": "Build and deploy a social network with Node.js, Express, React, Redux & MongoDB",
   "scripts": {
-    "start": "node server"
+    "start": "node server",
+    "server": "nodemon server"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
