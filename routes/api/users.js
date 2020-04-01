@@ -1,15 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const { check, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const config = require("config");
+const { check, validationResult } = require("express-validator");
+const normalize = require("normalize-url");
 
 const User = require("../../models/User");
-// @route   GET api/users
-// @desc    Register user
-// @access  Public
 
+// @route    POST api/users
+// @desc     Register user
+// @access   Public
 router.post(
   "/",
   [
@@ -39,11 +41,14 @@ router.post(
           .json({ errors: [{ msg: "User already exists" }] });
       }
 
-      const avatar = gravatar.url(email, {
-        s: "200",
-        r: "pg",
-        d: "mm"
-      });
+      const avatar = normalize(
+        gravatar.url(email, {
+          s: "200",
+          r: "pg",
+          d: "mm"
+        }),
+        { forceHttps: true }
+      );
 
       user = new User({
         name,
@@ -53,6 +58,7 @@ router.post(
       });
 
       const salt = await bcrypt.genSalt(10);
+
       user.password = await bcrypt.hash(password, salt);
 
       await user.save();
@@ -63,14 +69,20 @@ router.post(
         }
       };
 
-      jwt.sign(payload);
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+        { expiresIn: 360000 },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        }
+      );
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");
     }
-
-    console.log(req.body);
-    res.send("User route");
   }
 );
+
 module.exports = router;
