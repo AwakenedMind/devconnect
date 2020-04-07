@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 const Landing = () => {
   return (
     <section className='landing'>
@@ -25,4 +26,10 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+Landing.propTypes = {};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(Landing);
