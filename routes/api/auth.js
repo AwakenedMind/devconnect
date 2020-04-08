@@ -1,24 +1,3 @@
-// const express = require("express");
-// const router = express.Router();
-// const auth = require("../../middleware/auth");
-// const User = require("../../models/User");
-
-// // @route   GET api/users
-// // @desc    Test route
-// // @access  Public
-
-// router.get("/", auth, async (req, res) => {
-//   try {
-//     const user = await User.findById(req.user.id).select("-password");
-//     res.json(user);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
-
-// module.exports = router;
-
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
@@ -49,7 +28,7 @@ router.post(
   "/",
   [
     check("email", "Please include a valid email").isEmail(),
-    check("password", "Password is required").exists()
+    check("password", "Password is required").exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -78,8 +57,8 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
 
       jwt.sign(
